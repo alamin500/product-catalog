@@ -2,6 +2,7 @@ const formElm = document.querySelector("form");
 const nameInputElm = document.querySelector(".product-name");
 const priceInputElm = document.querySelector(".product-price");
 const listGroupElm = document.querySelector(".list-group");
+const filterElm = document.querySelector("#filter");
 
 // tracking items
 let products = [];
@@ -24,6 +25,13 @@ formElm.addEventListener("submit", (evt) => {
   addItemToUI(id, nameInput, priceInput);
   console.log(products);
   resetInput();
+});
+
+filterElm.addEventListener("keyup", (evt) => {
+  const filterValue = evt.target.value;
+  products.filter((product) => {
+    product.name.contains(filterValue);
+  });
 });
 
 // delete items
