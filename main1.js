@@ -29,10 +29,23 @@ formElm.addEventListener("submit", (evt) => {
 
 filterElm.addEventListener("keyup", (evt) => {
   const filterValue = evt.target.value;
-  products.filter((product) => {
-    product.name.contains(filterValue);
-  });
+  const filteredArr = products.filter((product) =>
+    product.name.includes(filterValue)
+  );
+  showAllItemToUI(filteredArr);
 });
+
+function showAllItemToUI(filteredArr) {
+  listGroupElm.innerHTML = "";
+  filteredArr.forEach((item) => {
+    const listElm = `<li class="list-group-item item-${item.id} collection-item">
+    <strong>${item.name}</strong>- <span class="price">$${item.price}</span>
+    <i class="fa fa-trash delete-item float-right"></i>
+    </li>`;
+
+    listGroupElm.insertAdjacentHTML("afterbegin", listElm);
+  });
+}
 
 // delete items
 listGroupElm.addEventListener("click", (evt) => {
