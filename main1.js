@@ -3,22 +3,49 @@ const nameInputElm = document.querySelector(".product-name");
 const priceInputElm = document.querySelector(".product-price");
 const listGroupElm = document.querySelector(".list-group");
 
+// tracking items
+const products = [];
+
 formElm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const { nameInput, priceInput } = receiveInputs();
 
   const isError = validateInput(nameInput, priceInput);
   if (!isError) {
-    addItemToUI(nameInput, priceInput);
+    const id = products.length;
+    products.push({
+      id: id,
+      name: nameInput,
+      price: priceInput
+    });
+    addItemToUI(id, nameInput, priceInput);
+    console.log(products);
     resetInput();
   }
 });
 
-function addItemToUI(name, price) {
-  console.log(name, price);
-  const listElm = `<li class="list-group-item collection-item">
+// delete items
+listGroupElm.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains("delete-item")) {
+    const id = getItemId(evt.target);
+  }
+});
+
+function getItemId(elm) {
+  const liElm = elm.parentElement;
+  console.log(Number(liElm.classList[1].split("-")[1]));
+}
+
+// resetInput
+function resetInput() {
+  nameInputElm.value = "";
+  priceInputElm.value = "";
+}
+
+function addItemToUI(id, name, price) {
+  const listElm = `<li class="list-group-item item-${id} collection-item">
 <strong>${name}</strong>- <span class="price">$${price}</span>
-<i class="fa fa-trash float-right"></i>
+<i class="fa fa-trash delete-item float-right"></i>
 </li>`;
 
   listGroupElm.insertAdjacentHTML("afterbegin", listElm);
