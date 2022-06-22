@@ -35,9 +35,9 @@ filterElm.addEventListener("keyup", (evt) => {
   showAllItemToUI(filteredArr);
 });
 
-function showAllItemToUI(filteredArr) {
+function showAllItemToUI(items) {
   listGroupElm.innerHTML = "";
-  filteredArr.forEach((item) => {
+  items.forEach((item) => {
     const listElm = `<li class="list-group-item item-${item.id} collection-item">
     <strong>${item.name}</strong>- <span class="price">$${item.price}</span>
     <i class="fa fa-trash delete-item float-right"></i>
