@@ -4,36 +4,52 @@ const priceInputElm = document.querySelector(".product-price");
 const listGroupElm = document.querySelector(".list-group");
 
 // tracking items
-const products = [];
+let products = [];
 
 formElm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const { nameInput, priceInput } = receiveInputs();
 
   const isError = validateInput(nameInput, priceInput);
-  if (!isError) {
-    const id = products.length;
-    products.push({
-      id: id,
-      name: nameInput,
-      price: priceInput
-    });
-    addItemToUI(id, nameInput, priceInput);
-    console.log(products);
-    resetInput();
+  if (isError) {
+    alert("Please provide valid input");
+    return;
   }
+  const id = products.length;
+  products.push({
+    id: id,
+    name: nameInput,
+    price: priceInput
+  });
+  addItemToUI(id, nameInput, priceInput);
+  console.log(products);
+  resetInput();
 });
 
 // delete items
 listGroupElm.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("delete-item")) {
     const id = getItemId(evt.target);
+    // delet item from ui
+    removeItemFromUi(id);
+
+    removeItemFromDataStore(id);
   }
 });
 
+function removeItemFromUi(id) {
+  document.querySelector(`.item-${id}`).remove();
+}
+
+function removeItemFromDataStore(id) {
+  console.log(products);
+  const productsAfterDelete = products.filter((product) => product.id !== id);
+  products = productsAfterDelete;
+}
+
 function getItemId(elm) {
   const liElm = elm.parentElement;
-  console.log(Number(liElm.classList[1].split("-")[1]));
+  return Number(liElm.classList[1].split("-")[1]);
 }
 
 // resetInput
@@ -53,7 +69,7 @@ function addItemToUI(id, name, price) {
 
 function validateInput(name, price) {
   let isError = false;
-  if (!name || name.length < 2) {
+  if (!name || name.length <= 2) {
     isError = true;
   }
   if (!price || Number(price) <= 0) {
