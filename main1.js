@@ -71,6 +71,20 @@
       priceInput
     };
   }
+  function addItemToStorage(product) {
+    let products;
+    if (localStorage.getItem("storeProducts")) {
+      products = JSON.parse(localStorage.getItem("storeProducts"));
+      products.push(product);
+      //update to localStorage
+      localStorage.setItem("storeProducts", JSON.stringify(products));
+    } else {
+      products = [];
+      products.push(product);
+      //update to localStorage
+      localStorage.setItem("storeProducts", JSON.stringify(products));
+    }
+  }
 
   function init() {
     formElm.addEventListener("submit", (evt) => {
@@ -83,13 +97,16 @@
         return;
       }
       const id = products.length;
-      products.push({
+      const product = {
         id: id,
         name: nameInput,
         price: priceInput
-      });
+      };
+
+      products.push(product);
       addItemToUI(id, nameInput, priceInput);
-      console.log(products);
+      // localStorage
+      addItemToStorage(product);
       resetInput();
     });
 
@@ -110,6 +127,15 @@
         removeItemFromDataStore(id);
       }
     });
+
+    document.addEventListener('DOMContentLoaded', e =>{
+      if(localStorage.getItem('storeProducts')){
+        JSON.parse(localStorage.getItem('storeProducts'))
+        console.log()
+      }
+    })
+
+
     // -----------------
   }
 })();
