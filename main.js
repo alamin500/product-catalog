@@ -64,7 +64,7 @@
   function validateInput(name, price) {
     console.log("validateInput", name, price);
     let isError = false;
-    if (!name || name.length < 5) {
+    if (!name || name.length < 2) {
       isError = true;
     }
 
